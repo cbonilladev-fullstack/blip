@@ -1,3 +1,5 @@
+<%= render 'hero' %>
+
 <section class="section">
   <div class="shots">
     <% @shots.each do |shot| %>
@@ -26,7 +28,7 @@
               <div class="level-item views data">
                 <%= link_to shot do %>
                   <span class="icon"><i class="fa fa-eye"></i></span>
-                  0
+                  <%= shot.impressionist_count %>
                 <%end%>
               </div>  
               <div class="level-item comments data">
@@ -35,12 +37,29 @@
                   <%= shot.comments.count %>
                 <%end%>
               </div>  
-              <%= link_to '' do %>
               <div class="level-item likes">
-                <span class="icon"><i class="fa fa-heart"></i></span>
-                <span class="vote_count">0</span>
-              </div>  
+
+              <%if user_signed_in?%>
+                <% if current_user.liked? shot %>
+                  <%= link_to unlike_shot_path(shot), method: :put, class: "unlike_shot" do %>
+                    <span class="icon"><i class="fa fa-heart has-text-primary"></i></span>
+                    <span class="vote_count"><%= shot.get_likes.size %></span>
+                  <%end%>
+                <%else%>
+                    <%= link_to like_shot_path(shot), method: :put, class: "like_shot" do %>
+                    <span class="icon"><i class="fa fa-heart"></i></span>
+                    <span class="vote_count"><%= shot.get_likes.size %></span>
+                  <%end%>
+                <%end%>
+
+                <%else%>
+                    <%= link_to like_shot_path(shot), method: :put, class: "like_shot" do %>
+                    <span class="icon"><i class="fa fa-heart"></i></span>
+                    <span class="vote_count"><%= shot.get_likes.size %></span>
+                  <%end%>
               <%end%>
+
+              </div>  
             </div>
           </nav>
         </div>
