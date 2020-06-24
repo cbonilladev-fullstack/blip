@@ -31,7 +31,6 @@ document.addEventListener("turbolinks:load", function() {
 
         function handleDragOver(evt) {
           evt.stopPropagation();
-          evt.preventDefault();
           evt.dataTransfer.dropEffect = 'copy';
         }
 
@@ -78,7 +77,13 @@ document.addEventListener("turbolinks:load", function() {
         }, false)
       }
     }
+  },
+  shotHover() {
+    $('.shot').hover(function() {
+      $(this).children('.shot-data').toggleClass('visible')
+    })
   }
   }
 Shots.previewShot()
+Shots.shotHover()
 })
